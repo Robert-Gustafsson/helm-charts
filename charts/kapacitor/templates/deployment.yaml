@@ -51,6 +51,9 @@ spec:
         volumeMounts:
         - name: data
           mountPath: /var/lib/kapacitor
+{{- if .Values.extraVolumes }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
+{{- end }}
 {{- if .Values.sidecar.sideload.enabled }}
         - name: sc-sideload-volume
           mountPath: {{ .Values.sidecar.sideload.folder | quote }}
@@ -88,6 +91,9 @@ spec:
           - name: sc-sideload-volume
             mountPath: "/var/lib/kapacitor/sideload"
 {{- end }}
+{{- if .Values.extraContainers }}
+{{ toYaml .Values.extraContainers | indent 6 }}
+{{- end }}
       volumes:
         - name: data
         {{- if .Values.persistence.enabled }}
@@ -96,6 +102,9 @@ spec:
         {{- else }}
           emptyDir: {}
         {{- end }}
+{{- if .Values.extraVolumeMounts }}
+{{ toYaml .Values.extraVolumeMounts | indent 8 }}
+{{- end }}
       {{- if .Values.sidecar.sideload.enabled }}
         - name: sc-sideload-volume
           emptyDir: {}
